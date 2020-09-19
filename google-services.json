@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "220616741069",
+    "firebase_url": "https://logregapp-5bfde.firebaseio.com",
+    "project_id": "logregapp-5bfde",
+    "storage_bucket": "logregapp-5bfde.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220616741069:android:151fc6810340f0eca59984",
+        "android_client_info": {
+          "package_name": "com.eevaken.logregapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "220616741069-62ddai2mkr4q0fo993niihhkhbbr73dd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKBeU6HsgChrjayTDJaycfqW4NlJxSI3c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "220616741069-62ddai2mkr4q0fo993niihhkhbbr73dd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
