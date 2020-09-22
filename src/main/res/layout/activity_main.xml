@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@drawable/bg5"
     tools:context=".MainActivity">
 
 
@@ -12,12 +12,13 @@
         android:id="@+id/regLayoutHeader"
         android:layout_width="417dp"
         android:layout_height="55dp"
-        android:background="#0044ff"
-
+        android:background="#00dbc6"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+        app:layout_constraintTop_toTopOf="parent">
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/regTextViewHeader"
@@ -32,6 +33,7 @@
         app:layout_constraintTop_toTopOf="@+id/regLayoutHeader" />
 
     <EditText
+        android:textColor="@color/et_color"
         android:id="@+id/regEditTextName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,6 +45,7 @@
         app:layout_constraintTop_toBottomOf="@+id/regLayoutHeader" />
 
     <EditText
+        android:textColor="@color/et_color"
         android:id="@+id/regEditTextSurname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,9 +58,12 @@
 
     <EditText
         android:id="@+id/regEditTextEmail"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_marginTop="30dp"
+        android:textColor="@color/et_color"
         android:ems="10"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,6 +71,7 @@
         app:layout_constraintTop_toBottomOf="@+id/regEditTextSurname" />
 
     <EditText
+        android:textColor="@color/et_color"
         android:id="@+id/regEditTextUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -76,6 +83,7 @@
         app:layout_constraintTop_toBottomOf="@+id/regEditTextEmail" />
 
     <EditText
+        android:textColor="@color/et_color"
         android:id="@+id/regEditTextPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -87,6 +95,7 @@
         app:layout_constraintTop_toBottomOf="@+id/regEditTextUsername" />
 
     <TextView
+        android:textColor="@color/et_color"
         android:id="@+id/regTextViewName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -97,6 +106,7 @@
         app:layout_constraintTop_toTopOf="@+id/regEditTextName" />
 
     <TextView
+        android:textColor="@color/et_color"
         android:id="@+id/regTextViewSurname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -107,6 +117,7 @@
         app:layout_constraintTop_toTopOf="@+id/regEditTextSurname" />
 
     <TextView
+        android:textColor="@color/et_color"
         android:id="@+id/regTextNewEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -117,6 +128,7 @@
         app:layout_constraintTop_toTopOf="@+id/regEditTextEmail" />
 
     <TextView
+        android:textColor="@color/et_color"
         android:id="@+id/regTextViewUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -127,6 +139,7 @@
         app:layout_constraintTop_toTopOf="@+id/regEditTextUsername" />
 
     <TextView
+        android:textColor="@color/et_color"
         android:id="@+id/regTextViewPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -150,5 +163,16 @@
 
 
         app:layout_constraintTop_toBottomOf="@+id/regEditTextPassword" />
+
+    <TextView
+        android:id="@+id/regTextViewErrorMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/regRegistrationButton"
+        app:layout_constraintVertical_bias="0.579" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
