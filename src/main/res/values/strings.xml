@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">LogRegApp</string>
-  <string name="password">Password</string>
+    <string name="password">Password</string>
     <string name="username">Username</string>
     <string name="email">Email</string>
     <string name="surname">Surname</string>
     <string name="name">Name</string>
     <string name="registration">Registrate</string>
+    <string name="signin">Sign In</string>
 </resources>

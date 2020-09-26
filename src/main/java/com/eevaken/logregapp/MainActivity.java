@@ -1,18 +1,30 @@
 package com.eevaken.logregapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.eevaken.logregapp.Models.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.regex.Pattern;
 
 public class MainActivity extends Activity {
     Button regButton;
+    Button regSignInButton;
     EditText name;
     EditText surname;
     EditText email;
@@ -26,14 +38,30 @@ public class MainActivity extends Activity {
     private static final String PASSWORD_PATTERN =
             "^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$";
 
+    FirebaseAuth auth;
+    FirebaseDatabase db;
+    DatabaseReference users;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        auth = FirebaseAuth.getInstance();
+        db = FirebaseDatabase.getInstance();
+        users = db.getReference("Users");
         regButton = (Button) findViewById(R.id.regRegistrationButton);
-
+        regSignInButton = (Button)findViewById(R.id.regSigninButton);
         errorMsg = (TextView) findViewById(R.id.regTextViewErrorMsg);
+        final Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+
+        View.OnClickListener oclSI = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(intent);
+            }
+        };
+        regSignInButton.setOnClickListener(oclSI);
+
         View.OnClickListener oclBtn;
         oclBtn = new View.OnClickListener() {
             @Override
@@ -48,8 +76,45 @@ public class MainActivity extends Activity {
                         email.getText().toString(), username.getText().toString(),
                         password.getText().toString()))
                     errorMsg.setText(errorStr);
-                else
+                else{
                     errorMsg.setText("");
+
+
+
+
+                    auth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
+                            .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                @Override
+                                public void onSuccess(AuthResult authResult) {
+                                    User user = new User();
+                                    user.setName(name.getText().toString());
+                                    user.setSurname(surname.getText().toString());
+                                    user.setEmail(email.getText().toString());
+                                    user.setUsername(username.getText().toString());
+                                    user.setPassword(password.getText().toString());
+
+                                    users.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                            .setValue(user)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Snackbar.make(findViewById(R.id.reg_element),"Success", Snackbar.LENGTH_SHORT).show();
+                                                    startActivity(intent);
+                                                    return;
+                                                }
+                                            });
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Snackbar.make(findViewById(R.id.reg_element),"Fail. " + e.getMessage(), Snackbar.LENGTH_LONG).show();
+                            return;
+                        }
+                    });
+
+                }
+
             }
         };
 

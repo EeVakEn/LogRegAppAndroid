@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg5"
+    android:id="@+id/reg_element"
     tools:context=".MainActivity">
 
 
@@ -18,8 +19,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
     </LinearLayout>
 
+    <Button
+        android:id="@+id/regSigninButton"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_weight="1"
+        android:text="SI"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/regTextViewHeader"
         android:layout_width="wrap_content"
