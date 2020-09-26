@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg5"
+    android:id="@+id/signin_element"
+    tools:context=".SignInActivity">
+
+
+    <LinearLayout
+        android:id="@+id/signinLayoutHeader"
+        android:layout_width="417dp"
+        android:layout_height="55dp"
+        android:background="#00dbc6"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/signinRegButton"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_weight="1"
+        android:text="R"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/signinTextViewHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/signin"
+        android:textColor="#fff"
+        android:textSize="12pt"
+        app:layout_constraintBottom_toBottomOf="@+id/signinLayoutHeader"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/signinLayoutHeader" />
+
+    <EditText
+        android:id="@+id/signinEditTextEmail"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30pt"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:textColor="@color/et_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signinLayoutHeader" />
+
+    <EditText
+        android:id="@+id/signinEditTextPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10pt"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:textColor="@color/et_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signinEditTextEmail" />
+
+    <TextView
+        android:textColor="@color/et_color"
+        android:id="@+id/signinTextNewEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/email"
+        app:layout_constraintBottom_toBottomOf="@+id/signinEditTextEmail"
+        app:layout_constraintEnd_toStartOf="@+id/signinEditTextEmail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/signinEditTextEmail" />
+
+    <TextView
+        android:textColor="@color/et_color"
+        android:id="@+id/regTextViewPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/password"
+        app:layout_constraintBottom_toBottomOf="@+id/signinEditTextPassword"
+        app:layout_constraintEnd_toStartOf="@+id/signinEditTextPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/signinEditTextPassword" />
+
+    <Button
+        android:id="@+id/signinButton"
+        style="@style/Widget.AppCompat.Button.Colored"
+
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="@string/signin"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+
+        app:layout_constraintTop_toBottomOf="@+id/signinEditTextPassword" />
+
+    <TextView
+        android:id="@+id/signinTextViewErrorMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signinButton"
+        app:layout_constraintVertical_bias="0.579" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
