@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg5"
+    android:background="@drawable/bg_"
     android:id="@+id/signin_element"
     tools:context=".SignInActivity">
 
@@ -13,7 +13,7 @@
         android:id="@+id/signinLayoutHeader"
         android:layout_width="417dp"
         android:layout_height="55dp"
-        android:background="#00dbc6"
+        android:background="@color/colorPrimary"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,6 +23,7 @@
     <Button
         android:id="@+id/signinRegButton"
         style="@style/Widget.AppCompat.Button.Colored"
+        android:background="@color/colorPrimary"
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_weight="1"
@@ -67,11 +68,11 @@
         app:layout_constraintTop_toBottomOf="@+id/signinEditTextEmail" />
 
     <TextView
-        android:textColor="@color/et_color"
         android:id="@+id/signinTextNewEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/email"
+        android:layout_width="86dp"
+        android:layout_height="37dp"
+        android:text="Email / Username"
+        android:textColor="@color/et_color"
         app:layout_constraintBottom_toBottomOf="@+id/signinEditTextEmail"
         app:layout_constraintEnd_toStartOf="@+id/signinEditTextEmail"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +92,7 @@
     <Button
         android:id="@+id/signinButton"
         style="@style/Widget.AppCompat.Button.Colored"
-
+        android:background="@color/colorPrimary"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="@string/signin"

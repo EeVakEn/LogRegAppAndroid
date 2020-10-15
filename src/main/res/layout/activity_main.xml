@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg5"
+    android:background="@drawable/bg_"
     android:id="@+id/reg_element"
     tools:context=".MainActivity">
 
@@ -13,7 +13,7 @@
         android:id="@+id/regLayoutHeader"
         android:layout_width="417dp"
         android:layout_height="55dp"
-        android:background="#00dbc6"
+        android:background="@color/colorPrimary"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,6 +25,7 @@
     <Button
         android:id="@+id/regSigninButton"
         style="@style/Widget.AppCompat.Button.Colored"
+        android:background="@color/colorPrimary"
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_weight="1"
@@ -163,7 +164,7 @@
     <Button
         android:id="@+id/regRegistrationButton"
         style="@style/Widget.AppCompat.Button.Colored"
-
+        android:background="@color/colorPrimary"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="@string/registration"

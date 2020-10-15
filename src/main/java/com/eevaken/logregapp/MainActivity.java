@@ -4,32 +4,30 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.eevaken.logregapp.Models.User;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
 
 import java.util.regex.Pattern;
 
 public class MainActivity extends Activity {
     Button regButton;
     Button regSignInButton;
-    EditText name;
-    EditText surname;
-    EditText email;
-    EditText username;
-    EditText password;
+    String name;
+    String surname;
+    String email;
+    String username;
+    String password;
     TextView errorMsg;
     String errorStr;
     private static final String EMAIL_PATTERN =
@@ -38,91 +36,108 @@ public class MainActivity extends Activity {
     private static final String PASSWORD_PATTERN =
             "^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$";
 
-    FirebaseAuth auth;
-    FirebaseDatabase db;
-    DatabaseReference users;
+    DBHelper dbHelper;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        auth = FirebaseAuth.getInstance();
-        db = FirebaseDatabase.getInstance();
-        users = db.getReference("Users");
-        regButton = (Button) findViewById(R.id.regRegistrationButton);
-        regSignInButton = (Button)findViewById(R.id.regSigninButton);
-        errorMsg = (TextView) findViewById(R.id.regTextViewErrorMsg);
-        final Intent intent = new Intent(MainActivity.this, SignInActivity.class);
 
-        View.OnClickListener oclSI = new View.OnClickListener() {
+        //подключаем  дб хелпер
+        dbHelper = new DBHelper(this);
+        //получаем бд
+        final SQLiteDatabase database = dbHelper.getWritableDatabase();
+
+
+        // кнопка зарегистрироваться
+        regButton = (Button) findViewById(R.id.regRegistrationButton);
+        // кнопка перехода между активити регистрации и входа
+        regSignInButton = (Button) findViewById(R.id.regSigninButton);
+        // текстовое поля вывода ошибок валидации
+        errorMsg = (TextView) findViewById(R.id.regTextViewErrorMsg);
+
+        // переменная для перехода к др активити
+        final Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+        // событие перехода к активити входа
+        regSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(intent);
             }
-        };
-        regSignInButton.setOnClickListener(oclSI);
+        });
 
-        View.OnClickListener oclBtn;
-        oclBtn = new View.OnClickListener() {
+
+        // событие нажптия на кнопку зарегистрироваться
+        regButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                name = (EditText) findViewById(R.id.regEditTextName);
-                surname = (EditText) findViewById(R.id.regEditTextSurname);
-                email = (EditText) findViewById(R.id.regEditTextEmail);
-                username = (EditText) findViewById(R.id.regEditTextUsername);
-                password = (EditText) findViewById(R.id.regEditTextPassword);
 
-                if (!validation(name.getText().toString(), surname.getText().toString(),
-                        email.getText().toString(), username.getText().toString(),
-                        password.getText().toString()))
+
+                //берем данные из полей ввода
+                EditText nameET = findViewById(R.id.regEditTextName);
+                EditText surnameET = findViewById(R.id.regEditTextSurname);
+                EditText emailET = findViewById(R.id.regEditTextEmail);
+                EditText usernameET = findViewById(R.id.regEditTextUsername);
+                EditText passwordET = findViewById(R.id.regEditTextPassword);
+
+                name = nameET.getText().toString();
+                surname = surnameET.getText().toString();
+                email = emailET.getText().toString();
+                username = usernameET.getText().toString();
+                password = passwordET.getText().toString();
+
+
+                // валидация
+                if (!validation(name, surname, email, username, password))
                     errorMsg.setText(errorStr);
-                else{
+                else {
+                    //валидация пройдена!!!
+                    // ошибка чистится
                     errorMsg.setText("");
 
-
-
-
-                    auth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
-                            .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                                @Override
-                                public void onSuccess(AuthResult authResult) {
-                                    User user = new User();
-                                    user.setName(name.getText().toString());
-                                    user.setSurname(surname.getText().toString());
-                                    user.setEmail(email.getText().toString());
-                                    user.setUsername(username.getText().toString());
-                                    user.setPassword(password.getText().toString());
-
-                                    users.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                            .setValue(user)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    Snackbar.make(findViewById(R.id.reg_element),"Success", Snackbar.LENGTH_SHORT).show();
-                                                    startActivity(intent);
-                                                    return;
-                                                }
-                                            });
-
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Snackbar.make(findViewById(R.id.reg_element),"Fail. " + e.getMessage(), Snackbar.LENGTH_LONG).show();
-                            return;
-                        }
-                    });
+                    //проверка на такое же мыло в бд
+                    if (!emailRepeat(database, email)) {
+                        registration(database, name, surname, email, username, password);
+                        Snackbar.make(v, "Success", Snackbar.LENGTH_SHORT).show();
+                    } else
+                        errorMsg.setText("Email is used");
 
                 }
 
             }
-        };
+        });
+    }
 
-        regButton.setOnClickListener(oclBtn);
+
+    // занесение пользователя в бд
+    private void registration(SQLiteDatabase database, String name, String surname, String email, String username, String password) {
+        // объект для добавления новых строк в таблицу
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DBHelper.KEY_NAME, name);
+        contentValues.put(DBHelper.KEY_SURNAME, surname);
+        contentValues.put(DBHelper.KEY_EMAIL, email);
+        contentValues.put(DBHelper.KEY_USERNAME, username);
+        contentValues.put(DBHelper.KEY_PASSWORD, password);
+
+        //добавляем в бд запись о пользователе
+        database.insert(DBHelper.TABLE_USERS, null, contentValues);
+    }
+
+    // проверка на повтор мыла
+    private boolean emailRepeat(SQLiteDatabase database, String email) {
+        //чтение всех записей c такимже мыылом
+        Cursor cursor = database.query(DBHelper.TABLE_USERS, null, "email = ?" , new String[]{email}, null, null, null);
+        //если такие имеются возвращаем 1
+        return cursor.moveToFirst();
     }
 
     private boolean validation(String nameStr, String surnameStr,
-                              String emailStr, String usernameSrt, String passwordStr) {
+                               String emailStr, String usernameSrt, String passwordStr) {
         if (nameStr.equals("")) {
             errorStr = "Empty name";
             return false;
@@ -136,13 +151,13 @@ public class MainActivity extends Activity {
             return false;
         }
         if (usernameSrt.equals("")) {
-            errorStr ="Empty username";
+            errorStr = "Empty username";
             return false;
         }
         System.out.println(passwordStr);
         if (passwordStr.equals("") || !passwordStr.matches(PASSWORD_PATTERN)) {
             errorStr = "Password is invalid. Check:\n" +
-                    " At least 8 characters\n" +
+                    "  At least 8 characters\n" +
                     "Contains at least one digit\n" +
                     "Contains at least one lower alpha char \n" +
                     "and one upper alpha char";

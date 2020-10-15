@@ -5,95 +5,108 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.accounts.Account;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.eevaken.logregapp.Models.User;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
 
 public class SignInActivity extends AppCompatActivity {
     Button signInButton;
     Button regSignInButton;
-    EditText email;
-    EditText password;
+    String email;
+    String password;
     TextView errorMsg;
     String errorStr;
-    FirebaseAuth auth;
-    FirebaseDatabase db;
-    DatabaseReference users;
-    private static final String EMAIL_PATTERN =
-            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
-                    "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    DBHelper dbHelper;
+
+
+    // регекс для пароля
     private static final String PASSWORD_PATTERN =
             "^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-        auth = FirebaseAuth.getInstance();
-        db = FirebaseDatabase.getInstance();
-        users = db.getReference("Users");
+
+
+        //создаем дбхелпер
+        dbHelper = new DBHelper(this);
+        //получаем бд
+        final SQLiteDatabase database = dbHelper.getWritableDatabase();
+
+
+        //кнопка войти
         signInButton = (Button) findViewById(R.id.signinButton);
+        //кнопка перхода на активити регмстрации
         regSignInButton = (Button)findViewById(R.id.signinRegButton);
-        View.OnClickListener oclR = new View.OnClickListener() {
+
+
+        // событие перехода на другое активити
+        regSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                 startActivity(intent);
             }
-        };
-        regSignInButton.setOnClickListener(oclR);
+        });
 
         errorMsg = (TextView) findViewById(R.id.signinTextViewErrorMsg);
-        View.OnClickListener oclBtn;
-        oclBtn = new View.OnClickListener() {
+
+        //событие входа в аккаунт
+        signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                email = (EditText) findViewById(R.id.signinEditTextEmail);
-                password = (EditText) findViewById(R.id.signinEditTextPassword);
 
-                if (!validation(email.getText().toString(),
-                        password.getText().toString()))
+                //получаем поля ввода
+                EditText emailET = (EditText) findViewById(R.id.signinEditTextEmail);
+                EditText passwordET = (EditText) findViewById(R.id.signinEditTextPassword);
+
+                //получаем значения этих полей
+                email =emailET.getText().toString();
+                password = passwordET.getText().toString();
+
+                //валидация
+                if (!validation(email,password))
                     errorMsg.setText(errorStr);
                 else{
                     errorMsg.setText("");
-
-                    auth.signInWithEmailAndPassword(email.getText().toString(),
-                            password.getText().toString())
-                            .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                                @Override
-                                public void onSuccess(AuthResult authResult) {
-                                    startActivity(new Intent(SignInActivity.this, AccountActivity.class));
-                                    return;
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Snackbar.make(findViewById(R.id.signin_element),"SignIn error. "+e.getMessage(),Snackbar.LENGTH_SHORT);
-                            return;
-                        }
-                    });
-
+                    //проверка соответствия мыла паролю
+                    if (authorization(database, email, password)){
+                        Intent intent = new Intent(SignInActivity.this, AccountActivity.class);
+                        startActivity(intent);
+                    }else {
+                        Snackbar.make(v, "Fail", Snackbar.LENGTH_SHORT).show();
+                    }
                 }
 
             }
-        };
-        signInButton.setOnClickListener(oclBtn);
+        });
     }
 
+    // авторизация
+    private boolean authorization(SQLiteDatabase database, String email, String password){
+        //чтение всех записей c такимже мыылом и паролем
+        Cursor cursor = database.query(DBHelper.TABLE_USERS, null, "email = ? or username = ? AND password = ?" , new String[]{email, email,password}, null, null, null);
+        //если такая имеется переходим на успешное активити
+        return cursor.moveToFirst();
+    }
+
+
+    //валидациия
     private boolean validation(String emailStr, String passwordStr) {
 
-        if (emailStr.equals("") || !emailStr.matches(EMAIL_PATTERN)) {
-            errorStr = "Email is invalid";
+        if (emailStr.equals("") ) {
+            errorStr = "Email or Username is empty";
             return false;
         }
 
