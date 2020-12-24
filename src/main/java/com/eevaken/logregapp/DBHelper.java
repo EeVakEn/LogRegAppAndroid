@@ -1,10 +1,10 @@
 package com.eevaken.logregapp;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import androidx.annotation.Nullable;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -45,4 +45,41 @@ public class DBHelper extends SQLiteOpenHelper {
         // пересоздаем
         onCreate(db);
     }
+
+    public void changePass(String id, String newPass){
+
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_PASSWORD, newPass);
+        database.update(TABLE_USERS, cv, "_id = ?" , new String[]{id});
+
+    }
+    public void changeName(String id, String newName){
+
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_NAME, newName);
+        database.update(TABLE_USERS, cv, "_id = ?" , new String[]{id});
+
+    }
+    public void changeSurname(String id, String newSurname){
+
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_SURNAME, newSurname);
+        database.update(TABLE_USERS, cv, "_id = ?" , new String[]{id});
+
+    }
+
+    public Cursor getAccountData(String id){
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.query(TABLE_USERS, new String[]{KEY_NAME,KEY_SURNAME,KEY_USERNAME},"_id = ?", new String[]{id},null,null,null);
+        return cursor;
+
+    }
+    public void delAcc(String id){
+        SQLiteDatabase database = this.getWritableDatabase();
+        database.delete(TABLE_USERS, "_id = ?" , new String[]{id});
+    }
+
 }

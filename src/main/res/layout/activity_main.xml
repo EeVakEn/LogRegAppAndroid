@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/reg_element"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_"
-    android:id="@+id/reg_element"
     tools:context=".MainActivity">
 
 
@@ -20,18 +20,19 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-    </LinearLayout>
+</LinearLayout>
 
     <Button
         android:id="@+id/regSigninButton"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:background="@color/colorPrimary"
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_weight="1"
+        android:background="@color/colorPrimary"
         android:text="SI"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/regTextViewHeader"
         android:layout_width="wrap_content"
@@ -45,25 +46,25 @@
         app:layout_constraintTop_toTopOf="@+id/regLayoutHeader" />
 
     <EditText
-        android:textColor="@color/et_color"
         android:id="@+id/regEditTextName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textColor="@color/et_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/regLayoutHeader" />
 
     <EditText
-        android:textColor="@color/et_color"
         android:id="@+id/regEditTextSurname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textColor="@color/et_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/regEditTextName" />
@@ -75,87 +76,87 @@
         android:layout_height="wrap_content"
 
         android:layout_marginTop="30dp"
-        android:textColor="@color/et_color"
         android:ems="10"
         android:inputType="textEmailAddress"
+        android:textColor="@color/et_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/regEditTextSurname" />
 
     <EditText
-        android:textColor="@color/et_color"
         android:id="@+id/regEditTextUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textColor="@color/et_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/regEditTextEmail" />
 
     <EditText
-        android:textColor="@color/et_color"
         android:id="@+id/regEditTextPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:ems="10"
         android:inputType="textPassword"
+        android:textColor="@color/et_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/regEditTextUsername" />
 
     <TextView
-        android:textColor="@color/et_color"
         android:id="@+id/regTextViewName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/name"
+        android:textColor="@color/et_color"
         app:layout_constraintBottom_toBottomOf="@+id/regEditTextName"
         app:layout_constraintEnd_toStartOf="@+id/regEditTextName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/regEditTextName" />
 
     <TextView
-        android:textColor="@color/et_color"
         android:id="@+id/regTextViewSurname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/surname"
+        android:textColor="@color/et_color"
         app:layout_constraintBottom_toBottomOf="@+id/regEditTextSurname"
         app:layout_constraintEnd_toStartOf="@+id/regEditTextSurname"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/regEditTextSurname" />
 
     <TextView
-        android:textColor="@color/et_color"
         android:id="@+id/regTextNewEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/email"
+        android:textColor="@color/et_color"
         app:layout_constraintBottom_toBottomOf="@+id/regEditTextEmail"
         app:layout_constraintEnd_toStartOf="@+id/regEditTextEmail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/regEditTextEmail" />
 
     <TextView
-        android:textColor="@color/et_color"
         android:id="@+id/regTextViewUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/username"
+        android:textColor="@color/et_color"
         app:layout_constraintBottom_toBottomOf="@+id/regEditTextUsername"
         app:layout_constraintEnd_toStartOf="@+id/regEditTextUsername"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/regEditTextUsername" />
 
     <TextView
-        android:textColor="@color/et_color"
         android:id="@+id/regTextViewPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/password"
+        android:textColor="@color/et_color"
         app:layout_constraintBottom_toBottomOf="@+id/regEditTextPassword"
         app:layout_constraintEnd_toStartOf="@+id/regEditTextPassword"
         app:layout_constraintStart_toStartOf="parent"
@@ -164,27 +165,27 @@
     <Button
         android:id="@+id/regRegistrationButton"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:background="@color/colorPrimary"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="@string/registration"
+        android:layout_marginBottom="40dp"
+        android:background="@color/colorPrimary"
 
+
+        android:text="@string/registration"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-
-
-        app:layout_constraintTop_toBottomOf="@+id/regEditTextPassword" />
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/regTextViewErrorMsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
         android:textColor="@android:color/holo_red_dark"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/regRegistrationButton"
-        app:layout_constraintVertical_bias="0.579" />
+        app:layout_constraintTop_toBottomOf="@+id/regEditTextPassword" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

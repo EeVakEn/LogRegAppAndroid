@@ -7,4 +7,12 @@
     <string name="name">Name</string>
     <string name="registration">Registrate</string>
     <string name="signin">Sign In</string>
+    <string name="change_password">Change password</string>
+    <string name="course">Курс Валют</string>
+    <string name="valuta">Валюта</string>
+    <string name="Course">Курс</string>
+    <string name="Cod">Код</string>
+    <string name="Changes">Изменение</string>
+    <string name="Nums">Единиц</string>
+    <string name="refresh">Обновить</string>
 </resources>

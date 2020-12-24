@@ -4,11 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.accounts.Account;
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +21,7 @@ import android.widget.TextView;
 import com.google.android.material.snackbar.Snackbar;
 
 
-public class SignInActivity extends AppCompatActivity {
+public class SignInActivity extends Activity {
     Button signInButton;
     Button regSignInButton;
     String email;
@@ -26,7 +29,7 @@ public class SignInActivity extends AppCompatActivity {
     TextView errorMsg;
     String errorStr;
     DBHelper dbHelper;
-
+    Cursor cursor;
 
     // регекс для пароля
     private static final String PASSWORD_PATTERN =
@@ -81,8 +84,15 @@ public class SignInActivity extends AppCompatActivity {
                 else{
                     errorMsg.setText("");
                     //проверка соответствия мыла паролю
-                    if (authorization(database, email, password)){
+                    int id = authorization(database, email, password).getColumnIndex(DBHelper.KEY_ID);
+                    Log.d("d", "айди = " + id);
+
+                    if (authorization(database, email, password).getCount() != 0){
+                        cursor.moveToNext();
                         Intent intent = new Intent(SignInActivity.this, AccountActivity.class);
+                        Bundle b = new Bundle();
+                        b.putString("id", cursor.getString(cursor.getColumnIndex(DBHelper.KEY_ID)));
+                        intent.putExtras(b);
                         startActivity(intent);
                     }else {
                         Snackbar.make(v, "Fail", Snackbar.LENGTH_SHORT).show();
@@ -94,11 +104,11 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     // авторизация
-    private boolean authorization(SQLiteDatabase database, String email, String password){
+    private Cursor authorization(SQLiteDatabase database, String email, String password){
         //чтение всех записей c такимже мыылом и паролем
-        Cursor cursor = database.query(DBHelper.TABLE_USERS, null, "email = ? or username = ? AND password = ?" , new String[]{email, email,password}, null, null, null);
-        //если такая имеется переходим на успешное активити
-        return cursor.moveToFirst();
+        cursor = database.query(DBHelper.TABLE_USERS, null, " ( email = ? or username = ? ) AND password = ?" , new String[]{email, email,password}, null, null, null);
+       //если такая имеется переходим на успешное активити
+        return cursor;
     }
 
 
